@@ -7,19 +7,21 @@ public class userInterface {
 	onlineSearch search;
 	userInterface(){
 		userIN = new Scanner(System.in);
-		search = new Walmart();
+		search = new WholesaleClub();
 		cmd = "";
 		System.out.println("Welcome to Shopping Companion");
 		mainLoop();
 	}
 	public void mainLoop(){
-		while(cmd.toUpperCase() != "Q") {
+		while(!cmd.toUpperCase().equals("Q")) {
 			System.out.println("Please type the product you want. If you would like to quit please type q or Q");
 			cmd = userIN.nextLine();
-			if (cmd.toUpperCase() == "Q") {
+			if (cmd.toUpperCase().equals("Q")) {
 				closing();
+			}else {
+				System.out.println(search.searchItem(cmd));
 			}
-			System.out.println(search.searchItem(cmd));
+			
 		}
 		
 	}
