@@ -1,11 +1,16 @@
 package App_Code;
 import java.sql.*;  
+import java.net.*;
+import java.io.*;
+
 /*That is where the database related code will be*/
 public class Database {
 	static Connection con;
 	static Statement stmt;
-	public static void main(String args[]){  
+	public static void main(String args[]) throws MalformedURLException{  
 			try {
+		       
+				userInterface user = new userInterface();
 				connect();
 				boolean check = checkExistence("Test4");
 				if(check) {
@@ -28,7 +33,7 @@ public class Database {
 				else {
 					insertItem("Test11",33);
 				}
-				con.close();  
+				con.close(); 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

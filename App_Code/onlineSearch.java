@@ -4,7 +4,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 /*Focuses on online searching*/
 
 public class onlineSearch {
-private static void searchItem(String Item){
+public static String searchItem(String Item){
+	//System.setProperty("webdriver.chrome.driver", "\"C:\\Users\\faris\\Downloads\\chromedriver.exe\"");
+
 	WebDriver driver = new ChromeDriver();
 	
 	//search on walmart website
@@ -13,6 +15,7 @@ private static void searchItem(String Item){
 	WebElement firstmatch = driver.findElement(By.className("css-1p4va6y eudvd6x0"));
 	String walmartItem = firstmatch.getText();
 	
+	return walmartItem;
 	//search on sobeys website
 	
 }
