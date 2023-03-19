@@ -52,18 +52,22 @@ public class WholesaleClub implements onlineSearch{
 }
 	
 public class Dollarama implements onlineSearch{
+	Dollarama(){
+		String dollaramaItem;
+		String dollaramaPrice;
+	}
 	private static void searchItem() {
 		
 		//search on dollarama website
 		search = String.format("https://www.dollarama.com/en-CA/Search?keywords=%s",Item.replace(' ', '+'));
 		driver.get(search);
 		try {
-		String dollaramaItem = driver.findElement(By.className("js-display-name")).getText();
-		String dollaramaPrice = driver.findElement(By.className("product-tile-price")).getText();
+		dollaramaItem = driver.findElement(By.className("js-display-name")).getText();
+		dollaramaPrice = driver.findElement(By.className("product-tile-price")).getText();
 		}
 		catch{
-		String dollaramaItem = "Item not found";
-		String dollaramaPrice = "";
+		dollaramaItem = "Item not found";
+		dollaramaPrice = "";
 		}
 	}
 }
@@ -76,9 +80,17 @@ public class Costco implements onlineSearch {
 	private static void searchItem() {
 		
 		//search on costco website
-		search = String.format("https://www.walmart.ca/search?q=%s",Item.replace(' ', '+'));
-		driver.get(search);
-		String costcoItem = driver.findElement(By.className("css-1p4va6y eudvd6x0"));
+		search = String.format("https://www.costco.ca/CatalogSearch?dept=All&keyword=%s",Item.replace(' ', '+'));
+	    driver.get(search);
+	    try {
+	        costcoItem = driver.findElement(By.className("price")).getText();
+	        costcoPrice = driver.findElement(By.className("description")).getText();
+	    }
+	    catch
+	    {
+	        costcoPrice = "";
+	        costcoItem = "Item not Found";
+	    }
 		
 	}
 }
