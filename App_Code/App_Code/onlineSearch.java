@@ -24,8 +24,8 @@ class Walmart implements onlineSearch{
 		search = String.format("https://www.walmart.ca/search?q=%s",Item.replace(' ', '+'));
 		driver.get(search);
 		try {
-		walmartItem = driver.findElement(By.className("css-1p4va6y eudvd6x0")).getText();
-		walmartPrice = driver.findElement(By.className("css-2vqe5n esdkp3p0")).getText();
+			walmartItem = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[2]/span/div/p")).getText();
+			walmartPrice = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[3]/div/div/span/span")).getText();
 		}
 		catch(Exception e){
 			walmartItem = "Item not found";
@@ -100,8 +100,8 @@ class WholesaleClub implements onlineSearch{
 		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(" ", "%20"));
 	    driver.get(search);
 	    try {
-		    wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price selling-price-list__item__price--now-price__value")).getText();
-		    wholesaleClubItem = driver.findElement(By.className("product-name__item product-name__item--brand")).getText() + driver.findElement(By.className("product-name__item product-name__item--name")).getText();
+	    	wholesaleClubPrice = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/div/div[3]/div/div/span/span[1]")).getText();
+		    wholesaleClubItem = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[1]")).getText() + driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[2]")).getText();
 	    }
 	    catch(Exception e){
 	    	wholesaleClubPrice = "";
