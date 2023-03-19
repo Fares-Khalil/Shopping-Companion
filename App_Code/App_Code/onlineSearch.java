@@ -3,19 +3,22 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 /*Focuses on online searching*/
 
+	//System.setProperty("webdriver.chrome.driver", "\"C:\\Users\\faris\\Downloads\\chromedriver.exe\"");
+
 interface onlineSearch {
-private static void searchItem() {
-}
+	public String searchItem(String Item);
 	WebDriver driver = new ChromeDriver();
-	String search = "";
+	
 }
 	
- class Walmart implements onlineSearch{
+class Walmart implements onlineSearch{
+	String walmartItem;
+	String walmartPrice;
+	String search;
 	Walmart(){
-		String walmartItem = "";
-		String walmartPrice = "";
+		search = " ";
 	}
-	void searchItem(String Item) {
+	public String searchItem(String Item) {
 		
 		//search on walmart website
 		search = String.format("https://www.walmart.ca/search?q=%s",Item.replace(' ', '+'));
@@ -23,42 +26,25 @@ private static void searchItem() {
 		try {
 		walmartItem = driver.findElement(By.className("css-1p4va6y eudvd6x0")).getText();
 		walmartPrice = driver.findElement(By.className("css-2vqe5n esdkp3p0")).getText();
-		System.out.println(walmartItem+walmartPrice);
 		}
-		catch{
+		catch(Exception e){
 			walmartItem = "Item not found";
 			walmartPrice = "";
 		}
+		return walmartPrice;
 	}
 }
 	
- class WholesaleClub implements onlineSearch{
-	WholesaleClub(){
-		String wholesaleClubPrice;
-		String wholesaleClubItem;
-	}
-	private static void searchItem(String Item) {
-		
-		//search on wholesaleClub website
-		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(" ", "%20"));
-	    driver.get(search);
-	    try {
-		    wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price selling-price-list__item__price--now-price__value")).getText();
-		    wholesaleClubItem = driver.findElement(By.className("product-name__item product-name__item--brand")).getText() + driver.findElement(By.className("product-name__item product-name__item--name")).getText();
-	    }
-	    catch{
-	    	wholesaleClubPrice = "";
-	    	wholesaleClubItem = "Item not found";
-	    }
-	}
-}
+	//search on sobeys website
 	
- class Dollarama implements onlineSearch{
+class Dollarama implements onlineSearch{
+	String dollaramaItem;
+	String dollaramaPrice;
+	String search;
 	Dollarama(){
-		String dollaramaItem;
-		String dollaramaPrice;
+		search = " ";
 	}
-	private static void searchItem() {
+	public String searchItem(String Item) {
 		
 		//search on dollarama website
 		search = String.format("https://www.dollarama.com/en-CA/Search?keywords=%s",Item.replace(' ', '+'));
@@ -67,19 +53,23 @@ private static void searchItem() {
 		dollaramaItem = driver.findElement(By.className("js-display-name")).getText();
 		dollaramaPrice = driver.findElement(By.className("product-tile-price")).getText();
 		}
-		catch{
+		catch(Exception e){
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
+		return dollaramaPrice;
 	}
 }
 	
- class Costco implements onlineSearch {
+	
+class Costco implements onlineSearch {
+	String costcoItem;
+	String costcoPrice;
+	String search;
 	Costco(){
-		String costcoItem;
-		String costcoPrice;
+		search = " ";
 	}
-	private static void searchItem() {
+	public String searchItem(String Item) {
 		
 		//search on costco website
 		search = String.format("https://www.costco.ca/CatalogSearch?dept=All&keyword=%s",Item.replace(' ', '+'));
@@ -88,18 +78,42 @@ private static void searchItem() {
 	        costcoItem = driver.findElement(By.className("price")).getText();
 	        costcoPrice = driver.findElement(By.className("description")).getText();
 	    }
-	    catch
+	    catch(Exception e)
 	    {
 	        costcoPrice = "";
 	        costcoItem = "Item not Found";
 	    }
+		return costcoPrice;
+	}
+}
+	
+class WholesaleClub implements onlineSearch{
+	String wholesaleClubPrice;
+	String wholesaleClubItem;
+	String search;
+	WholesaleClub(){
+		search = " ";
+	}
+	public String searchItem(String Item) {
 		
+		//search on wholesaleClub website
+		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(" ", "%20"));
+	    driver.get(search);
+	    try {
+		    wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price selling-price-list__item__price--now-price__value")).getText();
+		    wholesaleClubItem = driver.findElement(By.className("product-name__item product-name__item--brand")).getText() + driver.findElement(By.className("product-name__item product-name__item--name")).getText();
+	    }
+	    catch(Exception e){
+	    	wholesaleClubPrice = "";
+	    	wholesaleClubItem = "Item not found";
+	    }
+	    return wholesaleClubPrice;
 	}
+	
 }
- class classMain{
-	public static void main(String [] args) {
-		Walmart w = new Walmart();
-		w.searchItem("eggs");
-	}
-}
+	
+
+	
+
+	
 

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /Costco.class
 /Dollarama.class
 /Walmart.class
@@ -5,3 +6,17 @@
 /mainApp.class
 /onlineSearch.class
 /classMain.class
+=======
+/Database.class
+/mainApp.class
+/onlineSearch.class
+/userInterface.class
+/onlineSearch$WholesaleClub.class
+/onlineSearch$Costco.class
+/onlineSearch$Dollarama.class
+/onlineSearch$Walmart.class
+/Walmart.class
+/Dollarama.class
+/Costco.class
+/WholesaleClub.class
+>>>>>>> 4cd6faf67104edb0544bc0af435b46195d03e3bb
