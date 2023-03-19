@@ -7,7 +7,7 @@ public class userInterface {
 	onlineSearch search;
 	userInterface(){
 		userIN = new Scanner(System.in);
-		search = new onlineSearch();
+		search = new Walmart();
 		cmd = "";
 		System.out.println("Welcome to Shopping Companion");
 		mainLoop();
