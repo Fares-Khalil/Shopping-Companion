@@ -7,13 +7,13 @@ interface onlineSearch {
 private static void searchItem() {
 }
 	WebDriver driver = new ChromeDriver();
-	String search;
+	String search = "";
 }
 	
  class Walmart implements onlineSearch{
 	Walmart(){
-		String walmartItem;
-		String walmartPrice;
+		String walmartItem = "";
+		String walmartPrice = "";
 	}
 	void searchItem(String Item) {
 		
@@ -37,10 +37,10 @@ private static void searchItem() {
 		String wholesaleClubPrice;
 		String wholesaleClubItem;
 	}
-	private static void searchItem() {
+	private static void searchItem(String Item) {
 		
 		//search on wholesaleClub website
-		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(' ', '%20'));
+		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(" ", "%20"));
 	    driver.get(search);
 	    try {
 		    wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price selling-price-list__item__price--now-price__value")).getText();
