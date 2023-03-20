@@ -1,7 +1,9 @@
 package App_Code;
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.openqa.selenium.*;
 import java.net.*;
 import java.io.*;
@@ -9,13 +11,14 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import us.codecraft.xsoup.Xsoup;
+
 /*Focuses on online searching*/
 
 	//System.setProperty("webdriver.chrome.driver", "\"C:\\Users\\faris\\Downloads\\chromedriver.exe\"");
 
 interface onlineSearch {
-	public String searchItem(String Item);
-	
+	public String[] searchItem(String Item);
 }
 	
 class Walmart implements onlineSearch{
@@ -26,7 +29,7 @@ class Walmart implements onlineSearch{
 	Walmart(){
 		search = " ";
 	}
-	public String searchItem(String Item) {
+	public String[] searchItem(String Item) {
 		/*
 		ChromeOptions options = new ChromeOptions();
 		options.addArguments("--incognito");
@@ -35,9 +38,10 @@ class Walmart implements onlineSearch{
 		capabilities.setCapability(ChromeOptions.CAPABILITY, options);
 		WebDriver driver = new ChromeDriver(options);
 		*/
-		walmartItem = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[2]/span/div/p")).getText();
-		walmartPrice = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[3]/div/div/span/span")).getText();
+		//walmartItem = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[2]/span/div/p")).getText();
+		//walmartPrice = driver.findElement(By.xpath("//*[@id=\"product-results\"]/div[1]/div/a/div/div[2]/div[3]/div/div/span/span")).getText();
 
+		String[] result = {"",""};
 
 		//search on walmart website
 		search = String.format("https://www.walmart.ca/search?q=%s",Item.replace(' ', '+'));
@@ -64,8 +68,10 @@ class Walmart implements onlineSearch{
 			walmartItem = "Item not found";
 			walmartPrice = "";
 		}
+		result[0] = walmartItem;
+		result[1] =  walmartPrice;
 		//driver.close();
-		return walmartPrice;
+		return result;
 	}
 }
 	
@@ -78,20 +84,30 @@ class Dollarama implements onlineSearch{
 	Dollarama(){
 		search = " ";
 	}
-	public String searchItem(String Item) {
-		WebDriver driver = new ChromeDriver();
+	public String[] searchItem(String Item) {
+		
+		String[] result = {"",""};
 		//search on dollarama website
 		search = String.format("https://www.dollarama.com/en-CA/Search?keywords=%s",Item.replace(' ', '+'));
-		driver.get(search);
 		try {
-		dollaramaItem = driver.findElement(By.className("js-display-name")).getText();
-		dollaramaPrice = driver.findElement(By.className("product-tile-price")).getText();
+			Document document  = Jsoup.connect(search).get();
+	    	Element link = document.select(".product-tile-price").first();
+	
+	    	dollaramaPrice = link.html().substring(link.html().indexOf('$'),link.html().indexOf("</span>"));
+	    	link = document.select(".js-display-name").first();
+	    	
+	    	dollaramaItem = link.html().replace("<br>", " ");
+
+		//dollaramaItem = driver.findElement(By.className("js-display-name")).getText();
+		//dollaramaPrice = driver.findElement(By.className("product-tile-price")).getText();
 		}
 		catch(Exception e){
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
-		return dollaramaPrice;
+		result[0] = dollaramaItem;
+		result[1] =  dollaramaPrice;
+		return result;
 	}
 }
 	
@@ -103,26 +119,28 @@ class Costco implements onlineSearch {
 	Costco(){
 		search = " ";
 	}
-	public String searchItem(String Item) {
-		
+	public String[] searchItem(String Item) {
+		String[] result = {"",""};
+
 		//search on costco website
 		search = String.format("https://www.costco.ca/CatalogSearch?dept=All&keyword=%s",Item.replace(' ', '+'));
 		try {
 			Document document  = Jsoup.connect(search).get();
-	    	Element link = document.select("div.price").first();
+	    	Element link = document.select(".price").first();
 	
 	    	costcoPrice = link.html();
-	    	link = document.select("div.description").first();
+	    	link = document.select(".description").first();
 	    	
-	    	costcoItem = link.html();
+	    	costcoItem = link.html().substring( link.html().indexOf(">")+1,link.html().indexOf("</a>"));
 	    }
 	    catch(Exception e)
 	    {
 	        costcoPrice = "";
 	        costcoItem = "Item not Found";
 	    }
-	
-		return costcoPrice;
+		result[0] = costcoItem;
+		result[1] =  costcoPrice;
+		return result;
 	}
 }
 	
@@ -133,46 +151,32 @@ class WholesaleClub implements onlineSearch{
 	WholesaleClub(){
 		search = " ";
 	}
-	public String searchItem(String Item) {
-		WebDriver driver = new ChromeDriver();
+	public String[] searchItem(String Item) {
+		String[] result = {"",""};
+
+		ChromeOptions opt = new ChromeOptions();
+		opt.addArguments("headless");
+
+		WebDriver driver = new ChromeDriver(opt);
 		//search on wholesaleClub website
 		search = String.format("https://www.wholesaleclub.ca/search?search-bar=%s",Item.replace(" ", "%20"));
-	    driver.get(search);
-		Document document=null;
-    	wholesaleClubPrice = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/div/div[3]/div/div/span/span[1]")).getText();
-	    wholesaleClubItem = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[1]")).getText() + driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[2]")).getText();
-		try {
-			document = Jsoup.connect("https://www.wholesaleclub.ca/search?search-bar=milk").get();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		for(Object el:document.select("*")) {
-	    	 System.out.println(el);
-
-		}
-    	Element link = document.select("*").last();
-    	 System.out.println("Outer HTML: " + link.outerHtml());
-	        System.out.println("Inner HTML: " + link.html());
-	        wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price selling-price-list__item__price--now-price__value")).getText();
-		    wholesaleClubItem = driver.findElement(By.className("product-name__item product-name__item--brand")).getText() + driver.findElement(By.className("product-name__item product-name__item--name")).getText();
+		            
 	    try {
-	    	//Document document  = Jsoup.connect(search).get();
-	    	//Element link = document.select("div").get(5);
-	        System.out.println("Outer HTML: " + link.outerHtml());
-	        System.out.println("Inner HTML: " + link.html());
-	    	wholesaleClubPrice = link.html();
-	    	link = document.select("div.product-name__item product-name__item--brand").first();
-	    	
-	    	wholesaleClubItem = link.html();
-		    wholesaleClubPrice = driver.findElement(By.className("price__value selling-price-list__item__price")).getText();
-		    wholesaleClubItem = driver.findElement(By.className("product-name__item product-name__item--brand")).getText() + driver.findElement(By.className("product-name__item product-name__item--name")).getText();
+	    	driver.get(search);
+	     	while(!driver.getTitle().contains("Search")) {
+	     	}
+	     	Thread.sleep(10);
+	    	wholesaleClubPrice = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/div/div[3]/div/div/span/span[1]")).getText();
+		    wholesaleClubItem = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[2]")).getText() + driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/h3/a/span/span[3]")).getText();
+
 	    }
 	    catch(Exception e){
 	    	wholesaleClubPrice = "";
 	    	wholesaleClubItem = "Item not found";
 	    }
-	    return wholesaleClubPrice;
+	    result[0] = wholesaleClubItem;
+		result[1] =  wholesaleClubPrice;
+	    return result;
 	}
 	
 }
