@@ -4,10 +4,12 @@ import java.util.Scanner;  // Import the Scanner class
 public class userInterface {
 	String cmd;
 	Scanner userIN;
-	onlineSearch search;
+	onlineSearch[] search = new onlineSearch[3];
 	userInterface(){
 		userIN = new Scanner(System.in);
-		search = new WholesaleClub();
+		search[0] = new Dollarama();
+		search[1] = new Costco();
+		search[2] = new WholesaleClub();
 		cmd = "";
 		System.out.println("Welcome to Shopping Companion");
 		mainLoop();
@@ -19,17 +21,20 @@ public class userInterface {
 			if (cmd.toUpperCase().equals("Q")) {
 				closing();
 			}else {
-				System.out.println(search.searchItem(cmd));
+				for(onlineSearch store : search) {
+				String[] item = store.searchItem(cmd);
+				System.out.println(store.getClass().getName().substring(store.getClass().getName().indexOf(".")+1)+": " +item[0]+": " + item[1]);
 			}
-			
 		}
-		
+			
 	}
+		
+}
 	public void closing(){
 		
 			System.out.println("Are you sure you want to exit? :'(");
 			cmd = userIN.nextLine();
-			if(cmd.contains("yes")) {
+			if(cmd.contains("y")) {
 				System.out.println("Good bye! Have a nice day!");
 				System.exit(0);
 			}
