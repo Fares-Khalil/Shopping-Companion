@@ -23,14 +23,14 @@ public class Database {
 	}
 	public String[] checkDatabase(String name, String storeName, String userSearch,String price) {
 		String[] Data = new String[2];
-		int price_int;
+		float price_int;
 		if(name != "Item not found") {
 			Data[0] = name;
         	Data[1] = price;
-            price_int = Integer.parseInt(price);
+            price_int = Float.parseFloat()(price);
             
             if (checkExistence(name,userSearch, storeName)) {
-                int databasePrice = Integer.parseInt(getItem(userSearch,storeName)[1]);
+                float databasePrice = Float.parseFloat()(getItem(userSearch,storeName)[1]);
                 if(databasePrice == price_int) {
                     updateItem(userSearch, storeName,-1);
                 }
@@ -83,7 +83,7 @@ public class Database {
         return result;
     }
 
-	public void updateItem(String name, String storeName, int price) {
+	public void updateItem(String name, String storeName, float price) {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs=stmt.executeQuery("select * from frequency where userSearch= \""+name+"\" and store= \""+storeName+"\"");
@@ -111,7 +111,7 @@ public class Database {
 				e.printStackTrace();
 			}  	
 		}
-	public void insertItem(String name, String storeName, String userSearch,int price) {
+	public void insertItem(String name, String storeName, String userSearch,float price) {
 		try {
 			String cmd = "insert into application.frequency values (?,1,?,?,?,NOW())";
 			PreparedStatement ps = con.prepareStatement(cmd);
