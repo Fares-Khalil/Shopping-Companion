@@ -141,8 +141,9 @@ class Costco implements onlineSearch {
 	        costcoPrice = "";
 	        costcoItem = "Item not Found";
 	    }
-		result[0] = costcoItem;
-		result[1] =  costcoPrice;
+		result = database.checkDatabase(costcoItem, "Costco",Item,(costcoPrice.length()>0)?costcoPrice.substring(1):costcoPrice);
+		//result[0] = costcoItem;
+		//result[1] =  costcoPrice;
 		return result;
 	}
 }
@@ -177,8 +178,9 @@ class WholesaleClub implements onlineSearch{
 	    	wholesaleClubPrice = "";
 	    	wholesaleClubItem = "Item not found";
 	    }
-	    result[0] = wholesaleClubItem;
-		result[1] =  wholesaleClubPrice;
+		result = database.checkDatabase(wholesaleClubItem, "Costco",Item,(wholesaleClubPrice.length()>0)?wholesaleClubPrice.substring(1):wholesaleClubPrice);
+	    //result[0] = wholesaleClubItem;
+		//result[1] =  wholesaleClubPrice;
 	    return result;
 	}
 	
