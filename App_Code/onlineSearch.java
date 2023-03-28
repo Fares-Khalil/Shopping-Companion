@@ -107,9 +107,9 @@ class Dollarama implements onlineSearch{
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
-		String price = database.checkDatabase(dollaramaItem, dollaramaPrice);
-		result[0] = dollaramaItem;
-		result[1] =  dollaramaPrice;
+		result = database.checkDatabase(dollaramaItem, "Dollarama",Item,dollaramaPrice.substring(1));
+		//result[0] = dollaramaItem;
+		//result[1] =  dollaramaPrice;
 		return result;
 	}
 }

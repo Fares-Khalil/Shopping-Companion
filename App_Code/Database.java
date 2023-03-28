@@ -1,5 +1,6 @@
 package App_Code;
-import java.sql.*;  
+import java.sql.*;
+import java.util.ArrayList;
 import java.net.*;
 import java.io.*;
 
@@ -20,13 +21,37 @@ public class Database {
 			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/application","root","ShoppingCompanion5010");  
 			}catch(Exception e){ System.out.println(e);}  
 	}
-	public String checkDatabase(String name, String price) {
-		return "";
-	}
-	public boolean checkExistence(String name) {
+	public String[] checkDatabase(String name, String storeName, String userSearch,String price) {
+		String[] Data = new String[2];
+		int price_int;
+		if(name != "Item not found") {
+			Data[0] = name;
+        	Data[1] = price;
+            price_int = Integer.parseInt(price);
+            
+            if (checkExistence(name,userSearch, storeName)) {
+                int databasePrice = Integer.parseInt(getItem(userSearch,storeName)[1]);
+                if(databasePrice == price_int) {
+                    updateItem(userSearch, storeName,-1);
+                }
+                else {
+                    updateItem(userSearch,storeName,price_int); 
+                }
+            }
+            else {
+            	insertItem(name,storeName,userSearch,price_int);
+            }
+        }
+        else {
+            Data = getItem(userSearch,storeName);
+        }
+        return Data;
+    }
+
+	public boolean checkExistence(String name, String userSearch, String storeName) {
 		try {
 		stmt = con.createStatement();
-		ResultSet rs=stmt.executeQuery("select * from frequency where Item= \""+name+"\"");
+		ResultSet rs=stmt.executeQuery("select * from frequency where ((Item= \""+name+"\" or userSearch= \""+userSearch+"\") and store= \""+storeName+"\")");
 		if(rs.next()) {
 			return true;
 		}
@@ -39,25 +64,46 @@ public class Database {
 			return false;
 		}  	
 	}
-	public void updateItem(String name, int price) {
+    public String[] getItem(String userSearch, String storeName) {
+        ResultSet rs;
+        String[] result = new String[2]; 
 		try {
 			stmt = con.createStatement();
-			ResultSet rs=stmt.executeQuery("select * from frequency where Item= \""+name+"\"");
+			rs = stmt.executeQuery("select item,price from frequency where userSearch= \""+userSearch+"\" and store= \""+storeName+"\"");
+			rs.next();
+			result[0] = rs.getString(1);
+			result[1] = Integer.toString(rs.getInt(2));
+		} catch (SQLException e) {
+			e.printStackTrace();
+			result[0] = "error";
+			result[1]="error";
+		}
+        
+        
+        return result;
+    }
+
+	public void updateItem(String name, String storeName, int price) {
+		try {
+			stmt = con.createStatement();
+			ResultSet rs=stmt.executeQuery("select * from frequency where userSearch= \""+name+"\" and store= \""+storeName+"\"");
 			rs.next();
 			int count = rs.getInt(2)+1;
 			if(price!=-1) {
-				String cmd = "update application.frequency set count=?, price=? where Item=?";
+				String cmd = "update application.frequency set count=?, price=? where userSearch=? and store=?";
 				PreparedStatement ps = con.prepareStatement(cmd);
 				ps.setInt(1,count);
 				ps.setInt(2, price);
 				ps.setString(3, name);
+				ps.setString(4, storeName);
 				ps.execute();
 			}
 			else {
-				String cmd = "update application.frequency set count=? where Item=?";
+				String cmd = "update application.frequency set count=? where userSearch=? and store=?";
 				PreparedStatement ps = con.prepareStatement(cmd);
 				ps.setInt(1,count);
 				ps.setString(2, name);
+				ps.setString(3, storeName);
 				ps.execute();
 			}
 			
@@ -65,12 +111,14 @@ public class Database {
 				e.printStackTrace();
 			}  	
 		}
-	public void insertItem(String name, int price) {
+	public void insertItem(String name, String storeName, String userSearch,int price) {
 		try {
-			String cmd = "insert into application.frequency values (?,1,?,NOW())";
+			String cmd = "insert into application.frequency values (?,1,?,?,?,NOW())";
 			PreparedStatement ps = con.prepareStatement(cmd);
 			ps.setString(1, name);
 			ps.setInt(2,price);
+			ps.setString(3, userSearch);
+			ps.setString(4, storeName);
 			ps.execute();
 
 			}catch (SQLException e) {
