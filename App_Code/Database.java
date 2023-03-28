@@ -43,7 +43,13 @@ public class Database {
             }
         }
         else {
-            Data = getItem(userSearch,storeName);
+        	if (checkExistence(name,userSearch, storeName)) {
+        		Data = getItem(userSearch,storeName);
+        	}
+        	else {
+        		Data[0] = name;
+        		Data[1] = price;
+        	}
         }
         return Data;
     }

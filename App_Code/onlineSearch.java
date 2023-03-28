@@ -107,7 +107,7 @@ class Dollarama implements onlineSearch{
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
-		result = database.checkDatabase(dollaramaItem, "Dollarama",Item,dollaramaPrice.substring(1));
+		result = database.checkDatabase(dollaramaItem, "Dollarama",Item,(dollaramaPrice.length()>0)?dollaramaPrice.substring(1):dollaramaPrice);
 		//result[0] = dollaramaItem;
 		//result[1] =  dollaramaPrice;
 		return result;
@@ -166,7 +166,7 @@ class WholesaleClub implements onlineSearch{
 		            
 	    try {
 	    	driver.get(search);
-	     	while(!driver.getTitle().contains("Search")) {
+	     	while(!driver.getTitle().contains("Search Results")) {
 	     	}
 	     	Thread.sleep(10);
 	    	wholesaleClubPrice = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/div/div[3]/div/div/span/span[1]")).getText();
