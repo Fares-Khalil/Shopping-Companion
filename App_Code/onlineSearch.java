@@ -81,8 +81,10 @@ class Dollarama implements onlineSearch{
 	String dollaramaItem;
 	String dollaramaPrice;
 	String search;
+	Database database;
 	Dollarama(){
 		search = " ";
+		database = new Database();
 	}
 	public String[] searchItem(String Item) {
 		
@@ -105,8 +107,9 @@ class Dollarama implements onlineSearch{
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
-		result[0] = dollaramaItem;
-		result[1] =  dollaramaPrice;
+		result = database.checkDatabase(dollaramaItem, "Dollarama",Item,(dollaramaPrice.length()>0)?dollaramaPrice.substring(1):dollaramaPrice);
+		//result[0] = dollaramaItem;
+		//result[1] =  dollaramaPrice;
 		return result;
 	}
 }
@@ -116,8 +119,11 @@ class Costco implements onlineSearch {
 	String costcoItem;
 	String costcoPrice;
 	String search;
+	Database database;
 	Costco(){
 		search = " ";
+		database = new Database();
+
 	}
 	public String[] searchItem(String Item) {
 		String[] result = {"",""};
@@ -138,8 +144,9 @@ class Costco implements onlineSearch {
 	        costcoPrice = "";
 	        costcoItem = "Item not Found";
 	    }
-		result[0] = costcoItem;
-		result[1] =  costcoPrice;
+		result = database.checkDatabase(costcoItem, "Costco",Item,(costcoPrice.length()>0)?costcoPrice.substring(1):costcoPrice);
+		//result[0] = costcoItem;
+		//result[1] =  costcoPrice;
 		return result;
 	}
 }
@@ -148,8 +155,11 @@ class WholesaleClub implements onlineSearch{
 	String wholesaleClubPrice;
 	String wholesaleClubItem;
 	String search;
+	Database database;
 	WholesaleClub(){
 		search = " ";
+		database = new Database();
+
 	}
 	public String[] searchItem(String Item) {
 		String[] result = {"",""};
@@ -163,7 +173,7 @@ class WholesaleClub implements onlineSearch{
 		            
 	    try {
 	    	driver.get(search);
-	     	while(!driver.getTitle().contains("Search")) {
+	     	while(!driver.getTitle().contains("Search Results")) {
 	     	}
 	     	Thread.sleep(10);
 	    	wholesaleClubPrice = driver.findElement(By.xpath("//*[@id=\"odd\"]/div/div/div[3]/div[1]/div/div[3]/div/div/span/span[1]")).getText();
@@ -174,8 +184,9 @@ class WholesaleClub implements onlineSearch{
 	    	wholesaleClubPrice = "";
 	    	wholesaleClubItem = "Item not found";
 	    }
-	    result[0] = wholesaleClubItem;
-		result[1] =  wholesaleClubPrice;
+		result = database.checkDatabase(wholesaleClubItem, "Wholsesale Club",Item,(wholesaleClubPrice.length()>0)?wholesaleClubPrice.substring(1):wholesaleClubPrice);
+	    //result[0] = wholesaleClubItem;
+		//result[1] =  wholesaleClubPrice;
 	    return result;
 	}
 	
