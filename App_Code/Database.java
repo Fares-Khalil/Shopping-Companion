@@ -5,42 +5,14 @@ import java.io.*;
 
 /*That is where the database related code will be*/
 public class Database {
-	static Connection con;
-	static Statement stmt;
-	public static void main(String args[]) throws MalformedURLException{  
-			try {
-		       
-				userInterface user = new userInterface();
-				connect();
-				boolean check = checkExistence("Test4");
-				if(check) {
-					updateItem("Test4",-1);
-				}
-				else {
-					insertItem("Test4",20);
-				}
-				check = checkExistence("Test3");
-				if(check) {
-					updateItem("Test3",23);
-				}
-				else {
-					insertItem("Test3",20);
-				}
-				check = checkExistence("Test11");
-				if(check) {
-					updateItem("Test5",-1);
-				}
-				else {
-					insertItem("Test11",33);
-				}
-				con.close(); 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}  
-	}		
+	private Connection con;
+	private Statement stmt;		
 	
-	private static void connect() {
+	Database(){
+		connect();
+	}
+	
+	public void connect() {
 		try{  
 			//The class used to connect to mysql
 			Class.forName("com.mysql.cj.jdbc.Driver");  
@@ -48,8 +20,10 @@ public class Database {
 			con=DriverManager.getConnection("jdbc:mysql://localhost:3306/application","root","ShoppingCompanion5010");  
 			}catch(Exception e){ System.out.println(e);}  
 	}
-	
-	private static boolean checkExistence(String name) {
+	public String checkDatabase(String name, String price) {
+		return "";
+	}
+	public boolean checkExistence(String name) {
 		try {
 		stmt = con.createStatement();
 		ResultSet rs=stmt.executeQuery("select * from frequency where Item= \""+name+"\"");
@@ -65,7 +39,7 @@ public class Database {
 			return false;
 		}  	
 	}
-	private static void updateItem(String name, int price) {
+	public void updateItem(String name, int price) {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs=stmt.executeQuery("select * from frequency where Item= \""+name+"\"");
@@ -91,7 +65,7 @@ public class Database {
 				e.printStackTrace();
 			}  	
 		}
-	private static void insertItem(String name, int price) {
+	public void insertItem(String name, int price) {
 		try {
 			String cmd = "insert into application.frequency values (?,1,?,NOW())";
 			PreparedStatement ps = con.prepareStatement(cmd);
@@ -103,7 +77,7 @@ public class Database {
 				e.printStackTrace();
 			}  	
 	}
-	private static void displaySuggestion() {
+	public void displaySuggestion() {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs=stmt.executeQuery("select * from frequency where Count>10");
@@ -119,7 +93,7 @@ public class Database {
 		}
 		
 	}
-	private static void printSearchHistory() {
+	public void printSearchHistory() {
 		try {
 			stmt = con.createStatement();
 			ResultSet rs=stmt.executeQuery("select name from history order by DateTime desc limit 5");

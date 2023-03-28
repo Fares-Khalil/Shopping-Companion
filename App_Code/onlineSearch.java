@@ -81,8 +81,10 @@ class Dollarama implements onlineSearch{
 	String dollaramaItem;
 	String dollaramaPrice;
 	String search;
+	Database database;
 	Dollarama(){
 		search = " ";
+		database = new Database();
 	}
 	public String[] searchItem(String Item) {
 		
@@ -105,6 +107,7 @@ class Dollarama implements onlineSearch{
 		dollaramaItem = "Item not found";
 		dollaramaPrice = "";
 		}
+		String price = database.checkDatabase(dollaramaItem, dollaramaPrice);
 		result[0] = dollaramaItem;
 		result[1] =  dollaramaPrice;
 		return result;
