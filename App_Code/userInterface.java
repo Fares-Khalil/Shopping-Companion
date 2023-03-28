@@ -33,7 +33,7 @@ public class userInterface {
 	public void closing(){
 		
 			System.out.println("Are you sure you want to exit? :'(");
-			cmd = userIN.nextLine();
+			cmd = userIN.nextLine().toLowerCase();
 			if(cmd.contains("y")) {
 				System.out.println("Good bye! Have a nice day!");
 				System.exit(0);

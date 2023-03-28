@@ -119,8 +119,11 @@ class Costco implements onlineSearch {
 	String costcoItem;
 	String costcoPrice;
 	String search;
+	Database database;
 	Costco(){
 		search = " ";
+		database = new Database();
+
 	}
 	public String[] searchItem(String Item) {
 		String[] result = {"",""};
@@ -152,8 +155,11 @@ class WholesaleClub implements onlineSearch{
 	String wholesaleClubPrice;
 	String wholesaleClubItem;
 	String search;
+	Database database;
 	WholesaleClub(){
 		search = " ";
+		database = new Database();
+
 	}
 	public String[] searchItem(String Item) {
 		String[] result = {"",""};
@@ -178,7 +184,7 @@ class WholesaleClub implements onlineSearch{
 	    	wholesaleClubPrice = "";
 	    	wholesaleClubItem = "Item not found";
 	    }
-		result = database.checkDatabase(wholesaleClubItem, "Costco",Item,(wholesaleClubPrice.length()>0)?wholesaleClubPrice.substring(1):wholesaleClubPrice);
+		result = database.checkDatabase(wholesaleClubItem, "Wholsesale Club",Item,(wholesaleClubPrice.length()>0)?wholesaleClubPrice.substring(1):wholesaleClubPrice);
 	    //result[0] = wholesaleClubItem;
 		//result[1] =  wholesaleClubPrice;
 	    return result;
