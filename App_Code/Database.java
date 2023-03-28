@@ -27,10 +27,10 @@ public class Database {
 		if(name != "Item not found") {
 			Data[0] = name;
         	Data[1] = price;
-            price_int = Float.parseFloat()(price);
+            price_int = Float.parseFloat(price);
             
             if (checkExistence(name,userSearch, storeName)) {
-                float databasePrice = Float.parseFloat()(getItem(userSearch,storeName)[1]);
+                float databasePrice = Float.parseFloat(getItem(userSearch,storeName)[1]);
                 if(databasePrice == price_int) {
                     updateItem(userSearch, storeName,-1);
                 }
@@ -93,7 +93,7 @@ public class Database {
 				String cmd = "update application.frequency set count=?, price=? where userSearch=? and store=?";
 				PreparedStatement ps = con.prepareStatement(cmd);
 				ps.setInt(1,count);
-				ps.setInt(2, price);
+				ps.setFloat(2, price);
 				ps.setString(3, name);
 				ps.setString(4, storeName);
 				ps.execute();
@@ -116,7 +116,7 @@ public class Database {
 			String cmd = "insert into application.frequency values (?,1,?,?,?,NOW())";
 			PreparedStatement ps = con.prepareStatement(cmd);
 			ps.setString(1, name);
-			ps.setInt(2,price);
+			ps.setFloat(2,price);
 			ps.setString(3, userSearch);
 			ps.setString(4, storeName);
 			ps.execute();
