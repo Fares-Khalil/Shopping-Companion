@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="534.0" prefWidth="868.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="example.demo.SearchResults">
+   <children>
+      <Button fx:id="searchButton" layoutX="663.0" layoutY="96.0" mnemonicParsing="false" onAction="#searchAction" prefHeight="34.0" prefWidth="96.0" text="Search" />
+      <Button fx:id="wholesaleAdd" layoutX="690.0" layoutY="485.0" mnemonicParsing="false" onAction="#WholesaleAdd" prefHeight="34.0" prefWidth="96.0" text="Add to cart" />
+      <Button fx:id="dollaramaAdd" layoutX="86.0" layoutY="485.0" mnemonicParsing="false" onAction="#DollaramaAdd" prefHeight="34.0" prefWidth="96.0" text="Add to cart" />
+      <ImageView fitHeight="96.0" fitWidth="147.0" layoutX="6.0" layoutY="6.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@logo-removebg-preview.png" />
+         </image>
+      </ImageView>
+      <TextField fx:id="searchBar" layoutX="95.0" layoutY="96.0" onAction="#searchAction" prefHeight="34.0" prefWidth="563.0" promptText="Perform another search..." />
+      <ListView fx:id="dollaramaProduct" layoutX="14.0" layoutY="331.0" prefHeight="114.0" prefWidth="239.0" />
+      <ListView fx:id="wholesaleclubProduct" layoutX="610.0" layoutY="331.0" prefHeight="114.0" prefWidth="239.0" />
+      <ImageView fx:id="dollaramaPic" fitHeight="153.0" fitWidth="160.0" layoutX="54.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@dollarama.png" />
+         </image>
+      </ImageView>
+      <ImageView fx:id="wholesalePic" fitHeight="160.0" fitWidth="160.0" layoutX="658.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@wholesaleclub.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="costcoAdd" layoutX="387.0" layoutY="485.0" mnemonicParsing="false" onAction="#CostcoAdd" prefHeight="34.0" prefWidth="96.0" text="Add to cart" />
+      <ListView fx:id="costcoProduct" layoutX="315.0" layoutY="331.0" prefHeight="114.0" prefWidth="239.0" />
+      <ImageView fx:id="costcoPic" fitHeight="153.0" fitWidth="160.0" layoutX="359.0" layoutY="167.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@costco.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="decreaseOne" layoutX="74.0" layoutY="453.0" mnemonicParsing="false" onAction="#ButtonMinus1" prefHeight="3.0" prefWidth="14.0" text="-">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="increaseOne" layoutX="168.0" layoutY="453.0" mnemonicParsing="false" onAction="#ButtonAdd1" prefHeight="18.0" prefWidth="18.0" text="+">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="decreaseTwo" layoutX="377.0" layoutY="452.0" mnemonicParsing="false" onAction="#ButtonMinus2" prefHeight="1.0" prefWidth="0.0" text="-">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="increaseTwo" layoutX="469.0" layoutY="453.0" mnemonicParsing="false" onAction="#ButtonAdd2" prefHeight="2.0" prefWidth="0.0" text="+">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="decreaseThree" layoutX="678.0" layoutY="453.0" mnemonicParsing="false" onAction="#ButtonMinus3" prefHeight="0.0" prefWidth="0.0" text="-">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <Button fx:id="increaseThree" layoutX="774.0" layoutY="453.0" mnemonicParsing="false" onAction="#ButtonAdd3" prefHeight="4.0" prefWidth="2.0" text="+">
+         <font>
+            <Font size="14.0" />
+         </font></Button>
+      <TextField fx:id="quantity1" alignment="CENTER" layoutX="108.0" layoutY="455.0" prefHeight="26.0" prefWidth="52.0" text="0" />
+      <TextField fx:id="quantity2" alignment="CENTER" layoutX="409.0" layoutY="454.0" prefHeight="26.0" prefWidth="52.0" text="0" />
+      <TextField fx:id="quantity3" alignment="CENTER" layoutX="712.0" layoutY="455.0" prefHeight="26.0" prefWidth="52.0" text="0" />
+      <Button fx:id="myCarts" layoutX="754.0" layoutY="19.0" mnemonicParsing="false" onAction="#viewmyCarts" prefHeight="44.0" prefWidth="96.0" text="My Carts" />
+      <Label layoutX="97.0" layoutY="140.0" text="Dollarama">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="413.0" layoutY="140.0" text="Costco">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="693.0" layoutY="140.0" text="Wholesale Club">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
